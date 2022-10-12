@@ -77,9 +77,10 @@ public: Controller() {
     Q_INVOKABLE void addOtherThread() {
         qDebug() << "add Other Thread called";
         QThread* test = QThread::create( std::function<void ()> ([&]()  {
-                                    qDebug() << "calling model add rows";
-                                    model->addRows(QList<QPair<int, QString>>() << QPair<int, QString>(12, "other thread one") << QPair<int, QString>(12, "other thread two")); // !!! Creates java core crash, no any exceptions about thread affinity from jambi
-                                    qDebug() << "model add rows called";
+             qDebug() << "calling model add rows";
+             // !!! here it crashes
+             model->addRows(QList<QPair<int, QString>>() << QPair<int, QString>(12, "other thread one") << QPair<int, QString>(12, "other thread two"));
+            qDebug() << "model add rows called";
         }));
         test->start();
     }
